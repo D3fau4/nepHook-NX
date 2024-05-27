@@ -1,0 +1,21 @@
+name: Build exlaunch
+
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/d3fau4/nx-dev:latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+          submodules: true
+
+    - name: Build app
+      run: |
+        bash ./exlaunch.sh build
+        
+    - uses: actions/upload-artifact@v3.1.1
+      with:
+        name: deploy
+        path: deploy/
